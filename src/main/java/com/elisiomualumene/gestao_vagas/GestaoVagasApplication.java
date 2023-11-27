@@ -1,4 +1,4 @@
-package com.elisiomualumene.gestaovagas;
+package com.elisiomualumene.gestao_vagas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
