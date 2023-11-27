@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elisiomualumene.gestao_vagas.exceptions.UserFoundException;
 import com.elisiomualumene.gestao_vagas.modules.candidate.entities.CandidateEntity;
 import com.elisiomualumene.gestao_vagas.modules.candidate.repository.CandidateRepository;
+import com.elisiomualumene.gestao_vagas.modules.candidate.usecases.CreateCandidateUseCase;
 
 import jakarta.validation.Valid;
 
@@ -18,16 +19,17 @@ import jakarta.validation.Valid;
 public class CandidateController {
 
     @Autowired
-    private CandidateRepository candidateRepository;
+    CreateCandidateUseCase createCandidateUseCase;
 
     @PostMapping("/")
     public ResponseEntity<Object> candidate(@Valid @RequestBody CandidateEntity candidateEntity) {
-        this.candidateRepository.findByUsernameOrEmail(candidateEntity.getUsername(), candidateEntity.getEmail())
-                .ifPresent(user -> {
-                    throw new UserFoundException("Usuário já Existe");
-                });
-        var candidate = this.candidateRepository.save(candidateEntity);
-        return ResponseEntity.status(200).body(candidate);
+        try {
+            var candidate = this.createCandidateUseCase.execute(candidateEntity);
+
+            return ResponseEntity.status(200).body(candidate);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
     }
 }
