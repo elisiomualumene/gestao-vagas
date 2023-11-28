@@ -31,7 +31,7 @@ public class AuthCompanyUseCase {
         var passwordMatcher = passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
 
         if (!passwordMatcher) {
-            throw new AuthenticationException();
+            throw new AuthenticationException("Senha incorreta!");
         }
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         var token = JWT.create().withIssuer("java").withSubject(company.getId().toString()).sign(algorithm);
