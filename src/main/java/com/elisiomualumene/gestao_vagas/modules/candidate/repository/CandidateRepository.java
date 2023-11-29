@@ -9,4 +9,6 @@ import com.elisiomualumene.gestao_vagas.modules.candidate.entities.CandidateEnti
 
 public interface CandidateRepository extends JpaRepository<CandidateEntity, UUID> {
     Optional<CandidateEntity> findByUsernameOrEmail(String username, String email);
+
+    Optional<CandidateEntity> findByUsername(String username);
 }
