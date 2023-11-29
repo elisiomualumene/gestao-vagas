@@ -40,4 +40,8 @@ public class JobEntity {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    public static Object builder() {
+        return null;
+    }
 }
