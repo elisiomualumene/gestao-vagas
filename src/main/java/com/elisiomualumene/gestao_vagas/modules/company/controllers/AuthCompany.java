@@ -15,24 +15,19 @@ import com.elisiomualumene.gestao_vagas.modules.company.usecases.AuthCompanyUseC
 import com.elisiomualumene.gestao_vagas.utils.CustomResponse;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/company")
 public class AuthCompany {
 
     @Autowired
     private AuthCompanyUseCase authCompanyUseCase;
 
-    @PostMapping("/company")
+    @PostMapping("/auth")
     public ResponseEntity<Object> authCompany(@RequestBody AuthCompanyDTO authCompanyDTO)
             throws AuthenticationException {
         try {
             var company = this.authCompanyUseCase.execute(authCompanyDTO);
 
-            CustomResponse<String> response = new CustomResponse<>();
-
-            response.setMessage("Empresa cadastrada com succeso!");
-            response.setToken(company);
-
-            return ResponseEntity.ok().body(response);
+            return ResponseEntity.ok().body(company);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
