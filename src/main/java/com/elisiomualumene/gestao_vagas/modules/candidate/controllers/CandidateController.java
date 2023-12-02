@@ -10,16 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elisiomualumene.gestao_vagas.modules.candidate.entities.CandidateEntity;
 import com.elisiomualumene.gestao_vagas.modules.candidate.usecases.CreateCandidateUseCase;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/candidate")
+@Tag(name = "Candidato", description = "Informações do Candidato")
 public class CandidateController {
 
     @Autowired
     CreateCandidateUseCase createCandidateUseCase;
 
     @PostMapping("/")
+    @Operation(summary = "Cadastrar um novo candidato")
     public ResponseEntity<Object> candidate(@Valid @RequestBody CandidateEntity candidateEntity) {
         try {
             var candidate = this.createCandidateUseCase.execute(candidateEntity);
