@@ -11,10 +11,13 @@ import com.elisiomualumene.gestao_vagas.modules.company.entities.CompanyEntity;
 import com.elisiomualumene.gestao_vagas.modules.company.usecases.CreateCompanyUseCase;
 import com.elisiomualumene.gestao_vagas.modules.company.usecases.ListCompanyUseCase;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/company")
+@Tag(name = "Empresa", description = "Informações da Empresa")
 public class CompanyController {
 
     @Autowired
@@ -23,6 +26,7 @@ public class CompanyController {
     private ListCompanyUseCase listCompanyUseCase;
 
     @PostMapping("/")
+    @Operation(summary = "Criar uma nova Empresa")
     public ResponseEntity<Object> CreateCompany(@Valid @RequestBody CompanyEntity companyEntity) {
         try {
             var company = this.createCompanyUseCase.execute(companyEntity);
@@ -34,6 +38,7 @@ public class CompanyController {
     }
 
     @GetMapping("/")
+    @Operation(summary = "Listagem de todas empresas cadastradas")
     public ResponseEntity<Object> ListCompany() {
         try {
             var companies = this.listCompanyUseCase.execute();
