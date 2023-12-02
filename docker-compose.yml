@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/data/postgres
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=root
+    networks:
+      - Connect
+
+  java_app:
+    container_name: java_app
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: "production"
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    volumes:
+      - ./target:/app/target
+    networks:
+      - Connect
+
+volumes:
+  pgdata:
+    driver: local
+networks:
+  Connect:
+    driver: bridge
